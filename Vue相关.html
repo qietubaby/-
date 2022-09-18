@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    img {
+      display: block;
+      width: 800px;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+<body>
+
+  <img src="images/9.png"/>
+  <img src="images/9-1.png"/>
+  <img src="images/9-2.png"/>
+  <img src="images/9-3.png"/>
+  <img src="images/9-4.png"/>
+  <img src="images/9-5.png"/>
+  <img src="images/9-6.png"/>
+
+  <script>
+    /*
+      你了解哪些Vue性能优化方法
+      
+      - 路由懒加载
+
+      - keep-alive缓存页面
+
+      - v-show 复用DOM
+
+      - v-for 遍历避免同时使用 v-if 在计算属性中计算
+
+      - 长列表性能优化 如果列表是纯粹数据展示，不会有任何变化，就不需要做响应化
+      const users = await axios.get('/api/users')
+      this.users = Object.freeze(users)
+
+      - 如果是大数据长列表，可采用虚拟滚动，只渲染少部分区域的内容
+
+      - 如果是大数据列表，可采用虚拟滚动，只渲染少部分区域的内容
+      recycle-scoller vue-virtual-scroller vue-virtual-scroll-list
+
+      - 事件的销毁 会自定解绑它的全部指令及事件监听器，但是仅限于组件本身的事件
+      created() {
+        this.timer = setInterval(this.refresh, 2000)
+      },
+      beforeDestroy() {
+        clearInterval(this.timer)
+      }
+
+      - 图片懒加载
+
+      - 第三方插件按需引入
+
+      - 无状态组件标记为函数式组件
+      <template functional></template>
+
+
+     
+    */
+     
+    
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!--拿iphone6的设计稿举例子-->
+    <script>
+        // 获取屏幕宽度 (viewport)
+        let htmlWidth = document.documentElement.clientWidth || document.body.clientWidth
+        console.log(htmlWidth)
+            // 获取html的dom
+        let htmlDom = document.getElementsByTagName('html')[0];
+        //设置html的fontsize
+        htmlDom.style.fontSize = htmlWidth / 10 + 'px'; //37.5
+    </script>
+
+    <div style="background-color: red;width:1rem;height:1rem"></div>
+
+</body>
+<style>
+    /* @function px2rem ($px) {
+        $rem: 37.5;
+        @return ($px/ $rem)+rem;
+    }
+    
+    .header {
+        height: px2rem(40px);
+        width: 100%;
+        background-color: red;
+    } */
+</style>
+
+</html>

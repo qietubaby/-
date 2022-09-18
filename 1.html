@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+    </script>
+    <!-- 1.ES 6 语法知道哪些，分别怎么用？ -->
+
+    <!-- 2.Promise相关API的用法 -->
+
+    <!-- 3.手写函数防抖和函数节流 -->
+    <script>
+        // 函数节流
+        function throttle(fn, delay) {
+            let canUse = true
+            return function() {
+                if (canUse) {
+                    fn.apply(this, arguments)
+                    canUse = false
+                    setTimeout(() => canUse = true, delay)
+                }
+            }
+        }
+        //   function handle() {
+        //    console.log(Math.random());
+        //   }
+        //   window.addEventListener("mousemove", throttle(handle, 1000));
+
+
+        //函数防抖
+        function debounce(fn, delay) {
+            let timerId = null
+            return function() {
+                const context = this
+                if (timerId) {
+                    window.clearTimeout(timerId)
+                }
+                timerId = setTimeout(() => {
+                    fn.apply(context, arguments)
+                    timerId = null
+                }, delay)
+            }
+        }
+
+        function handle() {
+            console.log(Math.random())
+        }
+        window.addEventListener('resize', debounce(handle, 1000))
+    </script>
+
+    <!-- 4.手写Ajax -->
+    <script>
+        // var request = new XMLHttpRequest()
+        // request.open('GET', 'xx/xx', true)
+        // request.onreadystatechange = function () {
+        //  if (request.readyState === 4 && request.status === 200) {
+        //   console.log(request.responseText)
+        //  }
+        // }
+        // request.send()
+    </script>
+
+    <!--5.this-->
+    <!--6.闭包/立即执行函数是什么？-->
+    <!--7.什么是 JSONP，什么是 CORS，什么是跨域？-->
+
+    <!-- 8.async/await 怎么用，如何捕获异常？ -->
+    <script>
+        //基本用法
+        function fn() {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    let n = parseInt(Math.random() * 6 + 1, 10); // 1-6
+                    resolve(n)
+                }, 1000)
+            })
+        }
+        async function test() {
+            let n = await fn();
+            console.log(n)
+        }
+        //test()
+
+        // 捕获错误
+        function fn2(caice) {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    let n = parseInt(Math.random() * 6 + 1, 10); // 1-6
+                    if (n > 3) {
+                        if (caice === '大') {
+                            resolve(n)
+                        } else {
+                            reject(n)
+                        }
+                    } else {
+                        if (caice === '小') {
+                            resolve(n)
+                        } else {
+                            reject(n)
+                        }
+                    }
+                }, 1000)
+            })
+        }
+        async function test2() {
+            try {
+                let n = await fn2('大');
+                console.log('好嗨呦' + n)
+            } catch (error) {
+                console.log('输光了' + error)
+            }
+        }
+
+        // 同时摇两个色子
+        async function test3() {
+            try {
+                let n = await Promise.all([fn2('大'), fn2('大')])
+                console.log('好' + n)
+            } catch (error) {
+                console.log('坏' + error)
+            }
+        }
+        // test2()
+        //test3()
+    </script>
+
+
+    <!-- 9.如何实现深拷贝？ -->
+    <script>
+        function deepClone(source) {
+            if (source instanceof Object) {
+                let dist;
+                if (source instanceof Array) {
+                    dist = new Array()
+                } else if (source instanceof Function) {
+                    dist = function() {
+                        return source.apply(this, arguments)
+                    }
+                } else if (source instanceof RegExp) {
+                    dist = new RegExp(source.source, source.flags);
+                } else if (source instanceof Date) {
+                    dist = new Date(source)
+                } else {
+                    dist = new Object()
+                }
+                for (let key in source) {
+                    dist[key] = deepClone(source[key])
+                }
+                return dist;
+            }
+            return source
+        }
+
+
+        // let obj = {
+        //  name: 'Frank',
+        //  age: 18,
+        //  bbb: new RegExp('a', 'ig')
+        // }
+        // let obj2 = deepClone(obj)
+        // console.log(obj2)
+
+
+
+
+
+
+
+
+        // 完整版 支持可以复制环
+        class DeepCloner {
+            constructor() {
+                this.cache = [];
+            }
+            clone(source) {
+                if (source instanceof Object) {
+                    let cachedDist = this.findCache(source);
+                    if (cachedDist) {
+                        console.log("有缓存");
+                        return cachedDist;
+                    } else {
+                        console.log("没缓存")
+                        let dist;
+                        if (source instanceof Array) {
+                            dist = new Array()
+                        } else if (source instanceof Function) {
+                            dist = function() {
+                                return source.apply(this, arguments)
+                            }
+                        } else if (source instanceof RegExp) {
+                            dist = new RegExp(source.source, source.flags);
+                        } else if (source instanceof Date) {
+                            dist = new Date(source)
+                        } else {
+                            dist = new Object()
+                        }
+                        this.cache.push([source, dist])
+                        for (let key in source) {
+                            if (source.hasOwnProperty(key)) {
+                                dist[key] = this.clone(source[key])
+                            }
+                        }
+                        return dist;
+                    }
+                }
+                return source
+            }
+            findCache(source) {
+                for (let i = 0; i < this.cache.length; i++) {
+                    if (this.cache[i][0] === source) {
+                        return this.cache[i][1];
+                    }
+                }
+            }
+        }
+    </script>
+
+
+
+
+    <!-- 10.如何用正则实现 trim()？ -->
+    <script>
+        String.prototype.trim2 = function() {
+            return this.replace(/^\s+|\s+$/g, '')
+        }
+        let str = '        hello world    '
+            // console.log(str.trim2())
+    </script>
+
+    <!-- 11.不用 class 如何实现继承？用 class 又如何实现？ -->
+    <script>
+        function Animal(color) {
+            this.color = color
+        }
+        Animal.prototype.move = function() {}
+
+        function Dog(color, name) {
+            Animal.call(this, color)
+            this.name = name
+        }
+
+        function temp() {}
+        temp.prototype = Animal.prototype
+        Dog.prototype = new temp()
+
+        Dog.prototype.constructor = Dog
+        Dog.prototype.say = function() {
+            console.log('汪汪')
+        }
+        var dog = new Dog('黄色', '阿黄')
+    </script>
+
+    <!-- 12.如何实现数组去重？ -->
+    <script>
+        Array.prototype.unique = function() {
+            var hash = {},
+                result = [],
+                type = '',
+                item;
+            for (var i = 0; i < this.length; i++) {
+                item = this[i];
+                //类型判断
+                type = Object.prototype.toString.call(item);
+                if (!hash[item + type]) {
+                    hash[item + type] = true;
+                    result.push(item);
+                }
+            }
+            return result;
+        };
+        // console.log([1, '1', 1, 2].unique())
+    </script>
+
+
+    <!--13.手写一个 Promise -->
+    <script>
+    </script>
+
+
+    <!--快排-->
+
+    <!--
+
+        n*log 有递归  不稳定
+        快速排序啥时候复杂度最差 如果一个数字已经拍好序的
+        
+        随机取索引
+        快排之前先做一下乱序
+    -->
+    <script>
+        const Arr = [85, 24, 63, 45, 17, 31, 96, 50];
+
+        function quickSort(arr) {
+            if (arr.length <= 1) {
+                return arr;
+            }
+            let pivotIndex = Math.floor(arr.length / 2);
+            let pivot = arr.splice(pivotIndex, 1)[0];
+            let left = [];
+            let right = [];
+            for (let i = 0; i < arr.length; i++) {
+                if (arr[i] < pivot) {
+                    left.push(arr[i]);
+                } else {
+                    right.push(arr[i]);
+                }
+            }
+            // 递归
+            return quickSort(left).concat([pivot], quickSort(right));
+        }
+        console.log(quickSort(Arr));
+    </script>
+
+    <!-- 二分查找 -->
+    <script>
+        // function Find(target, array) {
+        //     let i = 0;
+        //     let j = array[i].length - 1;
+        //     while (i < array.length && j >= 0) {
+        //         if (array[i][j] < target) {
+        //             i++;
+        //         } else if (array[i][j] > target) {
+        //             j--;
+        //         } else {
+        //             return true;
+        //         }
+        //     }
+        //     return false;
+        // }
+        // //测试用例
+        // console.log(Find(10, [
+        //     [1, 2, 3, 4],
+        //     [5, 9, 10, 11],
+        //     [13, 20, 21, 23]
+        // ]));
+        var num = 100
+        var randomNum = Math.ceil(Math.random() * num)
+        document.title = random
+        var arr = []
+        for (var i = 1; i <= num; i++) {
+            arr.push(i)
+        }
+        console.log(arr)
+
+        function show2(arr, randomNum) {
+            var first = 0;
+            var last = arr.length - 1
+            while (first <= last) {
+                var mIndex = Math.floor((first + last) / 2)
+                if (randomNum < arr[mIndex]) {
+                    last = mIndex - 1
+                } else if (randomNum > arr[mIndex]) {
+                    first = mIndex + 1
+                } else {
+                    return arr[mIndex]
+                }
+            }
+        }
+        console.log(show2(arr, random))
+    </script>
+
+    <!--千分位-->
+
+    <script>
+        function exchange(num) {
+            num += ''; //转成字符串
+            if (num.length <= 3) {
+                return num;
+            }
+            num = num.replace(/\d{1,3}(?=(\d{3})+$)/g, (v) => {
+                console.log(v)
+                return v + ',';
+            });
+            return num;
+        }
+        console.log(exchange(1234567));
+    </script>
+
+    <script>
+        // nodejs EventLoop
+        // 因为 开启EventLoop和执行JS（）都是需要时间的，所以不知道哪个会先执行。所以
+        // setTimeout(()=>{console.log(1)},0)和setImmediate(fn)不确定会哪个先执行
+
+        // timers 是一个队列，把setTimeout的回调放进去，把时间也放进去
+        // setImmediate 是 check阶段的
+    </script>
+
+
+
+
+
+</body>
+
+</html>

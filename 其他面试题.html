@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 如何把 12345678 变为  12,345,678
+        // 第一种方法
+        var num_s = "23213446.23";
+        //console.log('$' + parseFloat(num_s).toLocaleString())
+
+
+
+        // 第二种方法
+
+        // console.log(toMoney(num_s))
+
+        function toMoney(num) {
+            if (num) {
+                if (isNaN(num)) {
+                    alert('金额中含有不能识别的字符');
+                    return;
+                }
+                num = typeof num == 'string' ? parseFloat(num) : num // 判断是否是字符串如果是字符串转成数字
+                num = num.toFixed(2); // 保留两位
+                // console.log(num)
+                num = parseFloat(num); // 转成数字
+                num = num.toLocaleString(); // 转成金额显示模式
+                // 判断是否有小数
+                if (num.indexOf('.') === -1) {
+                    num = '￥' + num + '.00';
+                } else {
+                    num = num.split('.')[1].length < 2 ? '￥' + num + '0' : '￥' + num;
+                }
+                return num; // 返回的是字符串23,245.12保留2位小数
+            } else {
+                return num = null;
+            }
+        }
+
+
+
+        function arrayToObj(arr) {
+            if (arr.length <= 1) {
+                return arr.shift()
+            }
+            let obj = {}
+            obj[arr.shift()] = arrayToObj(arr)
+            return obj
+        }
+        let arr = ["a", "b", "c", "d"]
+
+        let obj = arrayToObj(arr)
+            //console.log(obj)
+
+
+
+        /* 面试题 */
+        /* async function request() {
+            return new Promise(resolve => {
+                function callback() {
+                    console.log(1)
+                    resolve(2)
+                }
+                setTimeout(callback(), 200) //注意callback立即执行了
+                console.log(3)
+            })
+        }
+        const result = request();
+        console.log(result)
+        console.log(4)  //执行顺序 1 2 Promise  4
+         */
+
+
+        /* 面试题2 */
+        var a = 1;
+        var foo = {
+            a: 2,
+            bar: function() {
+                return this.a
+            }
+        }
+        console.log((false || foo.bar)()) // 1
+    </script>
+</body>
+
+</html>

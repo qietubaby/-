@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /*
+         如何让浏览器支持10px字体 -webkit-text-size-adjust: none; 这个属性新版不支持
+        */
+        
+        .box {
+            font-size: 12px;
+            -webkit-transform: scale(0.84, 0.84);
+        }
+        /*
+         em和rem的区别
+         em: 如何当前元素有font-size 那么width和height就按照这个fontSize来
+         
+        */
+        
+        .box2 {
+            width: 1em;
+            height: 1em;
+            font-size: 30px;
+            background-color: blue;
+        }
+        
+        .child {
+            color: red;
+            font-size: 1em;
+        }
+        
+        #box3 {
+            width: 200px;
+            height: 200px;
+            background: green;
+        }
+        
+        #box4 {
+            width: 100px;
+            height: 100px;
+            background: blue;
+            color: #fff;
+        }
+    </style>
+
+
+
+</head>
+
+<body>
+    <div class="box">
+        这是box1
+    </div>
+    <div class="box2">
+        这是box2
+        <div class="child">
+            这是Child
+        </div>
+
+        <div id="box3">
+            <div id="box4">box4</div>
+        </div>
+    </div>
+</body>
+<script>
+    /* 取消事件冒泡 */
+    var box3 = document.getElementById('box3');
+    var box4 = document.getElementById('box4');
+
+    box3.addEventListener('click', function() {
+        alert('box3')
+    })
+    box4.addEventListener('click', function(e) {
+        // e.cancelBubble = true //ie
+        e.stopPropagation() //标准
+        alert('box4')
+    })
+</script>
+
+</html>

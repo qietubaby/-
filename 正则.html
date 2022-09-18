@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<body>
+    <script>
+        var pattern = /Box/i; //不区分大小写
+        var str = 'box';
+        console.log(pattern.exec(str));
+
+
+        /* var box = new RegExp('Box');
+console.log(box); //两个反斜杠,是正则表达
+
+
+var pattern = new RegExp('Box','i'); //不区分大小写
+var str = 'box';
+console.log(pattern.test(str));  //true
+
+
+var pattern = /Box/i; //不区分大小写
+var str = 'box';
+console.log(pattern.test(str));  //true
+
+
+console.log(/Box/i.test('box')); //一句话匹配
+
+
+//用语测试字符串匹配
+var pattern = /Box/i; //不区分大小写   模式
+var str = 'This is a box';  //一句英文
+console.log(pattern.test(str));  //true，字符串中是否包含模式中的正则 //This is a box！中是否包含不区分大小写的Box
+
+
+var pattern = /Box/i; //不区分大小写
+var str = 'box';
+console.log(pattern.exec(str));  //box,返回的是数组，没有就返回null
+
+
+
+
+
+//除了 test()和 exec()方法，String 对象也提供了 4 个使用正则表达式的方法。
+
+//使用 match 方法获取获取匹配数组
+var pattern = /Box/ig; //不区分大小写,并且全局匹配
+var str = 'This is a Box!That is a Box';
+console.log(str.match(pattern)); // ['Box','Box']
+var a = str.match(pattern);
+console.log(a[0]);  //证明了是数组
+
+
+
+
+// 使用 search 来查找匹配数据
+var pattern = /box/ig;
+var str = 'This is a Box!，That is a Box too';
+console.log(str.search(pattern)); //查找到返回位置，否则返回-1
+//PS：因为 search 方法查找到即返回，也就是说无需 g 全局
+
+
+
+//使用 replace 替换匹配到的数据
+var pattern = /box/ig;
+var str = 'This is a Box!，That is a Box too';
+console.log(str.replace(pattern,'Tom')); //找到替换后的字符串
+
+
+
+
+//使用 split 拆分成字符串数组
+var pattern = /!/ig;
+var str = 'This is a Box!That is a Box too';
+console.log(str.split(pattern));
+console.log(str.split(pattern).length);  //数组长度
+
+
+
+
+
+//RegExp 对象的静态属性,基本不怎么用,无需申明
+var pattern=/(g)oogle/i;
+var str = 'This is a google!';
+pattern.test(str);  // 必须执行一下，静态属性才有效
+
+//console.log(RegExp.input);
+//console.log(RegExp.leftContext);
+//console.log(RegExp.rightContext);
+//console.log(RegExp.lastMatch); //最后一次的google
+//console.log(RegExp.lastParen); //括号分组
+//console.log(RegExp.multiline);
+
+
+//短名字
+//input   $_ 当前被匹配的字符串
+//lastMatch   $& 最后一个匹配字符串
+//lastParen    $+ 最后一对圆括号内的匹配子串
+//leftContext   $` 最后一次匹配前的子串
+//multiline   $* 用于指定是否所有的表达式都用于多行的布尔值
+//rightContext   $' 在上次匹配之后的子串
+
+
+
+
+//使用实例属性
+var pattern = /google/igm;  //m表示支持换行
+//console.log(pattern.global); //true，是否设置全局了
+//console.log(pattern.ignoreCase); //true，是否忽略大小写
+//console.log(pattern.multiline); //true，是否支持换行
+//console.log(pattern.lastIndex); //0，下次的匹配位置
+//console.log(pattern.source); //google，正则表达式的源字符串
+
+var pattern = /google/g;
+var str = 'google google google';
+pattern.test(str); //google，匹配第一次
+ //pattern.lastIndex=100;  //还可以手动设置
+console.log(pattern.lastIndex); //6，第二次匹配的位
+
+
+
+// 三、获取控制
+
+//使用点元字符
+var pattern = /g..gle/;  //点符号匹配除换行符外的任意字符,位数必须相同
+var str = 'go0gle';
+console.log(pattern.test(str));
+
+
+
+//重复匹配
+var pattern = /go*gle/;  //  o*表示0个，1个或多个o
+var str = 'gogle';
+console.log(pattern.test(str));
+
+
+var pattern = /go+gle/;  //  o+ 表示一个或多个
+var str = 'gogle';
+console.log(pattern.test(str));
+
+
+var pattern = /go?gle/;  //  o? 表示一个或0个
+var str = 'ggle';
+console.log(pattern.test(str));
+
+
+var pattern = /g.?gle/;
+var str = 'gbbgle';
+console.log(pattern.test(str));//false  *? 表示一个或0个
+
+
+
+//区间
+var pattern = /go{2,4}gle/;  //  o{2,4}表示匹配o2-4次，包含2到4
+var str = 'goooogle';
+console.log(pattern.test(str));
+
+
+
+var pattern = /go{3}gle/;  //  o{3} 表示必须限定3次
+var str = 'gooogle';
+console.log(pattern.test(str));
+
+
+var pattern = /go{3,}gle/;  //  o{3,} 表示3个3个以上
+var str = 'gooooooooooooooooogle';
+console.log(pattern.test(str));
+
+
+
+
+//使用字符类匹配
+var pattern = /[a-z]oogle/;  //  [a-z]表示26个小写字母，任意一个都匹配
+var str = 'xoogle';
+console.log(pattern.test(str));
+
+
+
+var pattern = /[0-9]*oogle/;  //  [0-9]* ,表示数字0次一次或多次
+var str = '44444oogle';
+console.log(pattern.test(str));
+
+//复合式匹配
+var pattern = /[a-zA-Z0-9]oogle/;  // 表示匹配大小写的a-zA-Z0-9
+var str = '6zoogle';
+console.log(pattern.test(str));
+
+
+var pattern = /[^0-9]oogle/;  // [^0-9]表示非0-9的任意字符
+var str = 'boogle';
+console.log(pattern.test(str));
+
+
+//锚元字符匹配
+
+//头匹配
+var pattern = /^[0-9]oogle/; //这个^符号，表示从头开始匹配。是加在第一个斜杠 /后面而不是[]里面的
+var str  = '4oogle';
+console.log(pattern.test(str))
+
+
+
+var pattern = /\w*oogle/; //\w*匹配任意多个所有字母数字和下划线
+var str  = '4fds_oogle';
+console.log(pattern.test(str))
+
+
+var pattern = /\W*oogle/; //\W*匹配任意 非 多个所有字母数字_
+var str  = '-oogle';
+console.log(pattern.test(str))
+
+
+var pattern = /\doogle/; // \d 表示[0-9]
+var str  = '6666oogle';
+console.log(pattern.test(str))
+
+
+
+
+var pattern = /\Doogle/; // \D 表示 非 [0-9]
+var str  = 'ddd-_oogle';
+console.log(pattern.test(str))
+
+
+
+var pattern = /google/; //可以匹配到
+var str  = 'sfdsfds google fdsfd';
+console.log(pattern.test(str))
+
+
+//头匹配和尾匹配
+var pattern = /^[a-z]oogl[0-9]$/; //屏蔽前导和后导，规范开头和结尾
+var str  = 'googl6';
+console.log(pattern.test(str))
+
+
+
+var pattern = /goo\sgle/; // \s表示空格匹配
+var str  = 'goo gle';
+console.log(pattern.test(str))
+
+
+
+var pattern = /google\b/; // \b表示到达边界
+var str  = 'googlefdsfd';  //结果为false 已经超出边界
+console.log(pattern.test(str))
+
+
+
+var pattern = /google|baidu|bing/; // |表示匹配 或 选择模式
+var str  = 'this is baidu';   // 匹配概念不是相等，包含的关系
+console.log(pattern.test(str))
+
+
+var pattern = /google{4,8}$/; // |表示匹配或选择模式
+var str  = 'googleeeeee';   // 只有用$限定结尾才是4-8位的效果
+console.log(pattern.test(str))
+
+
+
+var pattern = /(google){4,8}$/; // 分组可以看成一个字符
+var str  = 'googlegooglegooglegoogle';   // 表示匹配google的4-8次
+console.log(pattern.test(str))
+
+
+
+var pattern = /8(.*)8/; //因为是分组所以必须加括号
+var str  = 'This is a 8google8';   //
+pattern.test(str);//必须要运行一下
+console.log(RegExp.$1);//RegExp.$1表示获取模式中第一个分组对应的匹配字符串，为google
+
+
+
+var pattern = /8(.*)8/;
+var str  = 'This is a 8google8';
+//document.write(str.replace(pattern,'<strong>google</strong>'));
+document.write(str.replace(pattern,'<strong>$1</strong>')); //$1表示分组获取字符串匹配到的内容
+
+
+var pattern = /(.*)\s(.*)/;
+var str  = 'google baidu';
+console.log(str.replace(pattern,'$2 $1'));  //位置交换  baidu google
+
+*/
+
+
+
+
+
+        /* 惰性和贪婪 */
+        /* var pattern = /[a-z]+/;    //这里使用了贪婪模式
+        var str  = 'bacdefj';
+        console.log(str.replace(pattern,'1'));  //所有的字符串变成了一个1
+
+        var pattern = /[a-z]+?/;    //这里使用了惰性模式
+        var str  = 'bacdefj';
+        console.log(str.replace(pattern,'1'));  //只有第一个字符变成了1，后面没有匹配
+
+
+
+        var pattern = /[a-z]+?/g;    //这里使用了惰性模式
+        var str  = 'bacdefj';
+        console.log(str.replace(pattern,'1'));  //开启了全局的惰性模式每一个字母都变成了1
+
+
+        var pattern = /8(.*)8/;    //使用了贪婪
+        var str  = '8google8 8google8 8google8';  //匹配到了 google8 8google8 8google
+        document.write(str.replace(pattern,'<strong>$1</strong>')) //结果<storng>google8 8google8 8google<storng>
+
+
+        var pattern = /8(.*?)8/g;    //使用了惰性，开启了全局
+        var str  = '8google8 8google8 8google8';
+        document.write(str.replace(pattern,'<strong>$1</strong>')); //这次结果正确了<strong>google</strong><strong>google</strong><strong>google</strong>
+
+
+
+        var pattern = /8([^8]*)8/g;  //另一种惰性，屏蔽了8的匹配，也就是两边的包含字符
+        var str  = '8google8 8google8 8google8';
+        document.write(str.replace(pattern,'<strong>$1</strong>'));
+
+
+        // 使用exec返回数组
+        var pattern = /^[a-z]+\s[0-9]{4}$/;
+        var str = 'google 2012';
+        console.log(pattern.exec(str)); //返回一个包含字符串的数组
+
+        var pattern = /^[a-z]+/; //只匹配到字母
+        var str = 'google 2012';
+        console.log(pattern.exec(str));  //只返回google的字符串数组
+
+
+        var pattern = /^([a-z]+)\s([0-9]{4})$/; //使用了分组
+        var str = 'google 2012';
+        //console.log(pattern.exec(str));  //分组
+        var a = pattern.exec(str);
+        console.log(a[0]); //返回匹配到的整个字符串google 2012
+        console.log(a[1]); //返回匹配到的第一个分组的字符串google
+        console.log(a[2]); //返回匹配到的第二个分组的字符串2012
+
+
+
+
+        // 捕获型分组和非捕获型分组
+        var pattern = /(\d+)([a-z])/;//这叫捕获型分组，所有的分组都捕获
+        var str = '123abc';
+        console.log(pattern.exec(str));// 123a,123,a
+
+
+
+
+        // 非捕获型分组
+        var pattern = /(\d+)(?:[a-z])/;//非捕获型分组，只要在不需要捕获返回的分组加上?:
+        var str = '123abc';
+        console.log(pattern.exec(str));// 123a,123
+
+
+
+        //如果两个分组前面都加上?:，那么结果为 123a
+        var pattern = /(?:\d+)(?:[a-z])/;//非捕获型分组，只要在不需要捕获返回的分组加上?:
+        var str = '123abc';
+        console.log(pattern.exec(str));// 123a
+
+
+
+
+        //使用分组嵌套
+        var pattern = /(A?(B?(C?)))/;  //从外往内获取
+        var str = 'ABC';
+        console.log(pattern.exec(str));
+        //第一步： a[0],整个匹配到的字符串abc
+        //第二步：a[1],匹配第一个分组(a?(b?(c?))),  abc
+        //第三步：a[2],匹配第二个分组(b?(c?)), bc
+        //第四步：a[3],匹配第三个分组(c?),  c
+
+
+
+        // 使用前瞻捕获
+        var pattern = /(goo(?=gle))/; //goo后面必须是gle才能返回goo，这里一定要注意，返回的是goo，而不是google
+        var str = 'google';
+        console.log(pattern.exec(str)); //返回的是goo，而不是google，这是前瞻性捕获
+
+
+
+        // 使用特殊字符匹配
+        var pattern = /\[/;  //用\符号转义正则里的特殊字符，才能匹配
+        var str = '[';
+        console.log(pattern.test(str));
+
+
+
+        //匹配换行
+        var pattern = /^\d+/mg;  //限定了首匹配，并且开启换行，如果不开启换行，只会匹配第一行
+        var str = '1.baidu\n2.google\n3.bing';
+        console.log(str.replace(pattern,'#'));
+
+
+        // 1.检查邮政编码
+        var pattern = /[1-9][0-9]{5}/; //必须是6位，必须是数字，第一位不能为0
+        var str = '224000';
+        console.log(pattern.test(str));
+
+        //2.检查文件压缩包
+        var pattern = /^[\w]+\.zip|gz|rar|7z/; //\w+,加上^限定首字符开始匹配，不包含-，需要加上\-
+        var str = '213.zip';  //文件名：字母_数字 .zip,gz,rar,7z
+        console.log(pattern.test(str));
+
+        // 3 .去除空格
+        var pattern = /\s/g; //替换是要开启全局的
+        var str = '111 222 333 555';
+        console.log(str.replace(pattern,''));
+
+
+
+        //4.删除首位空格 —— 第一种方法
+
+        var pattern = /^\s+/; //去除首空格
+        var str = '          goo  gle   ';
+        var result = str.replace(pattern,'');//去除首空格
+        pattern = /\s+$/;
+        result = result.replace(pattern,'')
+        console.log('|'+result+'|');
+
+
+        //4.删除首位空格 —— 第二种方法
+
+        // var pattern = /^\s+(.+)\s+$/; //(.+) 是贪婪模式 .+一直匹配到最后，所以要加上？变为惰性模式
+        var pattern = /^\s+(.+?)\s+$/;
+        var str = '          goo  gle   ';
+        // var result = pattern.exec(str)[1];
+        var result = str.replace(pattern,'$1'); //使用的分组模式的方法
+        console.log('|'+result+'|');
+
+
+
+        // 5. 验证电子邮件
+
+        //201951244@qq.com
+
+        var pattern = /^([\w\.\-]+)@([\w\-]+)\.([a-zA-Z]{2,4})$/;
+        var str = '2@qq.cc';
+        console.log(pattern.test(str));
+        */
+    </script>
+</body>
+
+</html>

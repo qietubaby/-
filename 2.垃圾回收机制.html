@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>垃圾回收机制</title>
+</head>
+
+<body>
+  <script>
+    // 1.所有全局变量都不是垃圾，有可能用到就不是垃圾
+    // var a = 1
+
+    // 2.没有可能用到就是垃圾
+    function fn() {
+      var b = 2 //局部变量在退出这个函数后就会变成垃圾，再也用不到了。再次调用是一个新的变量
+      console.log(b)
+    }
+    fn();
+
+    //3.如果没有任何一个变量引用内存的地址，那之前被引用的就是垃圾
+    var a = {
+      name: 'frank'
+    }
+    a = null
+
+
+  </script>
+</body>
+
+</html>
